@@ -16,7 +16,7 @@ function unifiedToggleActivation(tab) {
       // Activate
       activeTabs[tab.id] = true;
       browser.storage.local.set({ activeTabs: activeTabs }).then(() => {
-        browser.tabs.executeScript(tab.id, { file: "content.js" });
+        browser.tabs.sendMessage(tab.id, { action: "activate" });
       });
     }
   });

@@ -11,9 +11,23 @@
     "128": "icons/128.png"
   },
   "permissions": [
-    "activeTab",
-    "storage",
-    "contextMenus"
+    "contextMenus",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js",
+        "selector.js"
+      ],
+      "css": [
+        "implosion.css"
+      ],
+      "run_at": "document_idle"
+    }
   ],
   "browser_action": {
     "default_icon": {
@@ -23,7 +37,9 @@
     "default_title": "Anhilate"
   },
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [
+      "background.js"
+    ]
   },
   "commands": {
     "toggle-anhilate": {
@@ -32,9 +48,5 @@
       },
       "description": "Toggle the Anhilate element selector"
     }
-  },
-  "web_accessible_resources": [
-    "selector.js",
-    "implosion.css"
-  ]
+  }
 }
