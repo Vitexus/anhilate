@@ -12,20 +12,25 @@
   },
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "contextMenus"
   ],
   "browser_action": {
-    "default_icon": "icons/32.png",
+    "default_icon": {
+      "16": "icons/16.png",
+      "32": "icons/32.png"
+    },
     "default_title": "Anhilate"
   },
   "background": {
     "scripts": ["background.js"]
   },
   "commands": {
-    "_execute_browser_action": {
+    "toggle-anhilate": {
       "suggested_key": {
         "default": "Ctrl+Shift+X"
-      }
+      },
+      "description": "Toggle the Anhilate element selector"
     }
   },
   "web_accessible_resources": [
