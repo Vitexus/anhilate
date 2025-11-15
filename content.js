@@ -1,33 +1,46 @@
-// Ensure the content script is injected only once.
-if (typeof window.anhilate === 'undefined') {
-  window.anhilate = true;
+/**
+ * This content script is responsible for managing the activation and deactivation
+ * of the element selector. It is injected into all pages at document_idle, and
+ * waits for messages from the background script to start or stop its functionality.
+ */
 
-  // Dynamically inject the selector script and the implosion CSS.
-  const selectorScript = document.createElement('script');
-  selectorScript.src = browser.runtime.getURL('selector.js');
-  selectorScript.id = 'anhilate-selector-script';
-  document.head.appendChild(selectorScript);
+// A state flag to ensure that we don't activate or deactivate unnecessarily.
+let isAnhilating = false;
 
-  const implosionCss = document.createElement('link');
-  implosionCss.rel = 'stylesheet';
-  implosionCss.href = browser.runtime.getURL('implosion.css');
-  implosionCss.id = 'anhilate-implosion-css';
-  document.head.appendChild(implosionCss);
-
-  // Listen for deactivation messages from the background script
-  browser.runtime.onMessage.addListener(message => {
-    if (message.action === 'deactivate') {
-      // Dispatch an event to notify the page script (selector.js) to stop.
-      document.dispatchEvent(new CustomEvent('anhilate-deactivate'));
-    }
-  });
-
-  // Listen for the deactivation confirmation event from the page script
-  document.addEventListener('anhilate-deactivated-from-page', () => {
-    // Now that we are in the content script context, we can safely call the browser API.
-    browser.runtime.sendMessage({ action: "deactivated" });
-
-    // Clean up the global guard flag to allow for re-injection.
-    delete window.anhilate;
-  }, { once: true }); // Ensure this listener is automatically removed after it runs.
+/**
+ * Starts the element selection process.
+ * This function will activate the ElementSelector, which is defined in selector.js.
+ * It ensures that the selector is not started if it is already active.
+ */
+function startSelection() {
+  if (isAnhilating || !window.anhilateSelectorInstance) {
+    return;
+  }
+  isAnhilating = true;
+  window.anhilateSelectorInstance.start();
 }
+
+/**
+ * Stops the element selection process.
+ * This function will deactivate the ElementSelector and notify the background
+ * script that it has been stopped.
+ */
+function stopSelection() {
+  if (!isAnhilating || !window.anhilateSelectorInstance) {
+    return;
+  }
+  window.anhilateSelectorInstance.stop(() => {
+    isAnhilating = false;
+    // Inform the background script that deactivation is complete.
+    browser.runtime.sendMessage({ action: "deactivated" });
+  });
+}
+
+// Listen for messages from the background script to activate or deactivate the selector.
+browser.runtime.onMessage.addListener((message) => {
+  if (message.action === "activate") {
+    startSelection();
+  } else if (message.action === "deactivate") {
+    stopSelection();
+  }
+});

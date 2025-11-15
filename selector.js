@@ -47,10 +47,14 @@ if (!window.anhilateSelectorInstance) {
 
     /**
      * Stops the element selection mode.
-     * This removes the overlay, resets the cursor, removes event listeners, and removes the injected scripts and styles.
+     * This removes the overlay, resets the cursor, and removes event listeners.
+     * @param {function} onStoppedCallback - A function to call after deactivation is complete.
      */
-    stop() {
-      if (!this.isSelectionActive) return;
+    stop(onStoppedCallback) {
+      if (!this.isSelectionActive) {
+        if (onStoppedCallback) onStoppedCallback();
+        return;
+      }
       this.isSelectionActive = false;
 
       document.body.style.cursor = 'default';
@@ -66,18 +70,10 @@ if (!window.anhilateSelectorInstance) {
 
       this.highlightedElement = null;
 
-      // Remove the injected script and stylesheet
-      const selectorScript = document.getElementById('anhilate-selector-script');
-      if (selectorScript) selectorScript.remove();
-      const implosionCss = document.getElementById('anhilate-implosion-css');
-      if (implosionCss) implosionCss.remove();
-
-
-      // Notify the content script that deactivation is complete, so it can inform the background script.
-      document.dispatchEvent(new CustomEvent('anhilate-deactivated-from-page'));
-
-      // Clean up the global instance to allow for re-activation
-      delete window.anhilateSelectorInstance;
+      // Notify the caller that deactivation is complete.
+      if (onStoppedCallback) {
+        onStoppedCallback();
+      }
     }
 
     /**
@@ -160,7 +156,6 @@ if (!window.anhilateSelectorInstance) {
     }
   }
 
-  // Create an instance of the ElementSelector and start the selection mode.
+  // Create a single, reusable instance of the ElementSelector.
   window.anhilateSelectorInstance = new ElementSelector();
-  window.anhilateSelectorInstance.start();
 }
