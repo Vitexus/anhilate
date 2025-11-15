@@ -26,5 +26,8 @@ if (typeof window.anhilate === 'undefined') {
   document.addEventListener('anhilate-deactivated-from-page', () => {
     // Now that we are in the content script context, we can safely call the browser API.
     browser.runtime.sendMessage({ action: "deactivated" });
-  });
+
+    // Clean up the global guard flag to allow for re-injection.
+    delete window.anhilate;
+  }, { once: true }); // Ensure this listener is automatically removed after it runs.
 }
