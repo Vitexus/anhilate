@@ -1,0 +1,14 @@
+@keyframes implode {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.implode {
+  animation: implode 0.3s ease-out forwards;
+}
