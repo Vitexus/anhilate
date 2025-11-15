@@ -1,5 +1,7 @@
 # Anhilate WebExtension
 
+![+](icons/128.png?raw=true)
+
 Anhilate is a powerful browser extension for Firefox, Chrome, and Edge that allows you to visually select and permanently remove any HTML element from a webpage. It's a handy tool for decluttering pages, removing distractions, or temporarily tidying up a site for a screenshot.
 
 ## Features
