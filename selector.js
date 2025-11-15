@@ -9,7 +9,6 @@ if (!window.anhilateSelectorInstance) {
   class ElementSelector {
     constructor() {
       this.highlightedElement = null;
-      this.isRemoving = false;
 
       // Create the overlay element for highlighting
       this.overlay = document.createElement('div');
@@ -94,7 +93,6 @@ if (!window.anhilateSelectorInstance) {
      * @param {MouseEvent} e - The mouse move event.
      */
     handleMouseMove(e) {
-      if (this.isRemoving) return;
       // Hide the overlay temporarily to get the element underneath
       this.overlay.style.display = 'none';
       const element = document.elementFromPoint(e.clientX, e.clientY);
@@ -119,13 +117,13 @@ if (!window.anhilateSelectorInstance) {
      * @param {KeyboardEvent} e - The key down event.
      */
     handleKeyDown(e) {
-      if (this.isRemoving) return;
       if (e.key === 'Escape') {
         this.stop();
       }
       if (e.key === 'Enter') {
           if(this.highlightedElement) {
               this.removeElement(this.highlightedElement);
+              this.stop();
           }
       }
     }
@@ -135,7 +133,6 @@ if (!window.anhilateSelectorInstance) {
      * @param {MouseEvent} e - The click event.
      */
     handleClick(e) {
-      if (this.isRemoving) return;
       // Prevent the click from triggering any actions on the page
       e.preventDefault();
       e.stopPropagation();
@@ -143,6 +140,7 @@ if (!window.anhilateSelectorInstance) {
       if (this.highlightedElement) {
         this.removeElement(this.highlightedElement);
       }
+      this.stop();
     }
 
     /**
@@ -150,20 +148,13 @@ if (!window.anhilateSelectorInstance) {
      * @param {HTMLElement} element - The element to remove.
      */
     removeElement(element) {
-      if (!element || this.isRemoving) return;
-
-      this.isRemoving = true;
-      this.overlay.style.display = 'none'; // Hide overlay during animation
-
       // Add the 'implode' class to trigger the CSS animation
       element.classList.add('implode');
 
-      // Use a one-time event listener for animation end
+      // Remove the element from the DOM after the animation finishes
       element.addEventListener('animationend', () => {
         element.remove();
-        // Now that the animation is done and the element is gone, stop the selector.
-        this.stop();
-      }, { once: true }); // Important: ensure the event listener is called only once
+      });
     }
   }
 
