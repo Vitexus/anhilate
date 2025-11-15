@@ -140,7 +140,6 @@ if (!window.anhilateSelectorInstance) {
       if (this.highlightedElement) {
         this.removeElement(this.highlightedElement);
       }
-      this.stop();
     }
 
     /**
@@ -151,10 +150,13 @@ if (!window.anhilateSelectorInstance) {
       // Add the 'implode' class to trigger the CSS animation
       element.classList.add('implode');
 
-      // Remove the element from the DOM after the animation finishes
-      element.addEventListener('animationend', () => {
+      // Remove the element from the DOM after the animation finishes, then exit selection mode
+      const onAnimationEnd = () => {
+        element.removeEventListener('animationend', onAnimationEnd);
         element.remove();
-      });
+        this.stop();
+      };
+      element.addEventListener('animationend', onAnimationEnd);
     }
   }
 
