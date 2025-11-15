@@ -17,9 +17,14 @@ if (typeof window.anhilate === 'undefined') {
   // Listen for deactivation messages from the background script
   browser.runtime.onMessage.addListener(message => {
     if (message.action === 'deactivate') {
-      // The selector.stop() method will be called from within the selector script
-      // We'll dispatch an event to notify the selector script.
+      // Dispatch an event to notify the page script (selector.js) to stop.
       document.dispatchEvent(new CustomEvent('anhilate-deactivate'));
     }
+  });
+
+  // Listen for the deactivation confirmation event from the page script
+  document.addEventListener('anhilate-deactivated-from-page', () => {
+    // Now that we are in the content script context, we can safely call the browser API.
+    browser.runtime.sendMessage({ action: "deactivated" });
   });
 }

@@ -72,8 +72,8 @@ class ElementSelector {
     if (implosionCss) implosionCss.remove();
 
 
-    // Notify the background script that deactivation is complete
-    browser.runtime.sendMessage({ action: "deactivated" });
+    // Notify the content script that deactivation is complete, so it can inform the background script.
+    document.dispatchEvent(new CustomEvent('anhilate-deactivated-from-page'));
   }
 
   /**
