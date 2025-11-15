@@ -1,0 +1,2 @@
+# anhilate
+Firexfox extensions
