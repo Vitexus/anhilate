@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Anhilate Options</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .option-group {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 5px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 500;
+      color: #555;
+    }
+    select {
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: white;
+    }
+    .description {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #777;
+    }
+    .save-status {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      display: none;
+    }
+    .save-status.success {
+      display: block;
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+  </style>
+</head>
+<body>
+  <h1>Anhilate Settings</h1>
+  
+  <div class="option-group">
+    <label for="animation-effect">Animation Effect</label>
+    <select id="animation-effect">
+      <option value="simple">Simple (Scale down)</option>
+      <option value="spiral">Spiral (Rotate while shrinking)</option>
+    </select>
+    <div class="description">
+      Choose how elements disappear when removed from the page.
+    </div>
+  </div>
+
+  <div class="save-status" id="save-status">
+    Settings saved!
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

@@ -16,6 +16,14 @@ function unifiedToggleActivation(tab) {
       // Activate
       activeTabs[tab.id] = true;
       browser.storage.local.set({ activeTabs: activeTabs }).then(() => {
+        // Update icon to show active state
+        browser.browserAction.setIcon({
+          tabId: tab.id,
+          path: {
+            "16": "icons/16-active.png",
+            "32": "icons/32-active.png"
+          }
+        });
         browser.tabs.sendMessage(tab.id, { action: "activate" });
       });
     }
@@ -57,6 +65,15 @@ browser.runtime.onMessage.addListener((message, sender) => {
       if (sender.tab && activeTabs[sender.tab.id]) {
         delete activeTabs[sender.tab.id];
         browser.storage.local.set({ activeTabs: activeTabs });
+        
+        // Reset icon to default state
+        browser.browserAction.setIcon({
+          tabId: sender.tab.id,
+          path: {
+            "16": "icons/16.png",
+            "32": "icons/32.png"
+          }
+        });
       }
     });
   }

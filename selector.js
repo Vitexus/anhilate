@@ -70,6 +70,9 @@ if (!window.anhilateSelectorInstance) {
 
       this.highlightedElement = null;
 
+      // Notify content script that selection stopped (so it can reset state and inform background)
+      document.dispatchEvent(new CustomEvent('anhilate-stopped'));
+
       // Notify the caller that deactivation is complete.
       if (onStoppedCallback) {
         onStoppedCallback();
@@ -119,7 +122,6 @@ if (!window.anhilateSelectorInstance) {
       if (e.key === 'Enter') {
           if(this.highlightedElement) {
               this.removeElement(this.highlightedElement);
-              this.stop();
           }
       }
     }
@@ -143,16 +145,21 @@ if (!window.anhilateSelectorInstance) {
      * @param {HTMLElement} element - The element to remove.
      */
     removeElement(element) {
-      // Add the 'implode' class to trigger the CSS animation
-      element.classList.add('implode');
+      // Get the configured animation effect
+      browser.storage.local.get({ animationEffect: 'simple' }).then(result => {
+        const animationClass = `implode-${result.animationEffect}`;
+        
+        // Add the animation class to trigger the CSS animation
+        element.classList.add(animationClass);
 
-      // Remove the element from the DOM after the animation finishes, then exit selection mode
-      const onAnimationEnd = () => {
-        element.removeEventListener('animationend', onAnimationEnd);
-        element.remove();
-        this.stop();
-      };
-      element.addEventListener('animationend', onAnimationEnd);
+        // Remove the element from the DOM after the animation finishes, then exit selection mode
+        const onAnimationEnd = () => {
+          element.removeEventListener('animationend', onAnimationEnd);
+          element.remove();
+          this.stop();
+        };
+        element.addEventListener('animationend', onAnimationEnd);
+      });
     }
   }
 

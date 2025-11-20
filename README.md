@@ -4,13 +4,18 @@
 
 Anhilate is a powerful browser extension for Firefox, Chrome, and Edge that allows you to visually select and permanently remove any HTML element from a webpage. It's a handy tool for decluttering pages, removing distractions, or temporarily tidying up a site for a screenshot.
 
+## Demo
+
+<video src=anhilate-1.1.mkv?raw=true>
+
 ## Features
 
 *   **One-Click Activation:** Activate the element selection mode with a single click on the toolbar icon or by using a keyboard shortcut (`Ctrl+Shift+X`).
 *   **Precise Element Selection:** Once activated, your cursor turns into a crosshair. As you move it across the page, elements are highlighted with a blue overlay, showing you exactly what you're about to remove.
 *   **DevTools-Style Highlighting:** The highlighting is designed to mimic the familiar look and feel of your browser's developer tools inspector.
 *   **Click to Remove:** A simple click on the highlighted element is all it takes to make it disappear.
-*   **Satisfying Implosion Animation:** When an element is removed, it doesn't just vanish. It implodes with a quick, satisfying animation, scaling down and fading out.
+*   **Customizable Animation Effects:** Choose between simple implosion or spiral animation effects in the extension settings.
+*   **Visual Feedback:** The toolbar icon changes color when the element selector is active.
 *   **Keyboard Support:** In addition to clicking, you can also remove the highlighted element by pressing the `Enter` key.
 *   **Easy Deactivation:** You can cancel the selection mode at any time by pressing the `Escape` key or by clicking the toolbar icon again.
 *   **Lightweight and Fast:** Anhilate is built with pure JavaScript and CSS, with no third-party libraries, ensuring it's fast and won't slow down your browsing.

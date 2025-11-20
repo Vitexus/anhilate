@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Anhilate",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Remove any element from a webpage visually.",
   "homepage_url": "https://github.com/Vitexus/anhilate",
   "icons": {
@@ -11,8 +11,10 @@
     "128": "icons/128.png"
   },
   "permissions": [
+    "activeTab",
     "contextMenus",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "browser_specific_settings": {
     "gecko": {
@@ -62,5 +64,9 @@
       },
       "description": "Toggle the Anhilate element selector"
     }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
   }
 }

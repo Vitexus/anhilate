@@ -44,3 +44,11 @@ browser.runtime.onMessage.addListener((message) => {
     stopSelection();
   }
 });
+
+// Handle stop initiated by selector itself (e.g., after element removal animation)
+document.addEventListener('anhilate-stopped', () => {
+  if (isAnhilating) {
+    isAnhilating = false;
+    browser.runtime.sendMessage({ action: "deactivated" });
+  }
+});
