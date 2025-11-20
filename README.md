@@ -24,6 +24,10 @@ Anhilate is a powerful browser extension for Firefox, Chrome, and Edge that allo
 
 ### For Firefox
 
+**Install from Mozilla Add-ons:** [Get Anhilate on Firefox Add-ons](https://addons.mozilla.org/firefox/addon/anhilate/)
+
+**Or install manually:**
+
 1.  Download the latest release from the [releases page](https://github.com/Vitexus/anhilate/releases) (or clone this repository).
 2.  Open Firefox and navigate to `about:debugging`.
 3.  Click on "This Firefox" in the left-hand menu.
