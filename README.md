@@ -6,7 +6,7 @@ Anhilate is a powerful browser extension for Firefox, Chrome, and Edge that allo
 
 ## Demo
 
-<video src=anhilate-1.1.mkv?raw=true>
+![Anhilate Demo](anhilate-1.1.gif)
 
 ## Features
 
